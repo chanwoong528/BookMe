@@ -16,14 +16,14 @@ function App() {
 
 
   const registerUser = () => {
-    Axios.post(`http://localhost:3001/`, {
+    Axios.post(`http://localhost:3001/users/new`, {
 
       userPos: userPos,
       userEmail: userEmail,
       password: password
-
+      console.log("request");
     }).then((response) => {
-
+      console.log("response");
       alert(response.data);
     });
   };
