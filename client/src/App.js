@@ -36,11 +36,11 @@ function App() {
       password: password
     })
       .then((response) => {
-
+        setLoginPass(true);
         alert("login success");
         // response.data.loginStatus
         //여기에 로그인 성공하면 로그아웃 버튼 만들기
-        setLoginPass(true);
+
       })
       .catch(() => {
         //로그인 실패시 다시 로그인페이지 돌려주기
@@ -71,16 +71,16 @@ function App() {
         </Form>
       </Navbar>
       <br />
-
-      <Jumbotron>
-        <h1>붘미</h1>
-        <p>
-          예약 사이트 북미
-        </p>
-        <p>
-          <Button variant="primary">Learn more</Button>
-        </p>
-      </Jumbotron>
+      {
+        loginPass == true
+          ? <Jumbotron>
+              <h1>붘미</h1>
+            
+              <p>예약 사이트 북미</p>
+            
+            </Jumbotron>
+          : <LoginModal />
+      }
       {
         registerModal == true ?
           <RegisterModal
@@ -99,7 +99,7 @@ function App() {
       }
 
       {
-        loginModal == true || loginPass==false? //로그인버튼 누르거나|| 로그인 실패하거나
+        loginModal == true ? //로그인버튼 누르거나
           <LoginModal
             setRegisterModal={setRegisterModal}
             setLoginModal={setLoginModal}
