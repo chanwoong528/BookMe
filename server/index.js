@@ -30,9 +30,18 @@ db.on('error', function (err) {
   console.log('DB ERROR : ', err);
 });
 
+// Custom Middlewares
+app.use(function (req, res, next) {
+  res.locals.isAuthenticated = req.isAuthenticated();
+  res.locals.currentUser = req.user;
+  res.locals.passKey = req.passKey;
+  next();
+});
+
 // Other settings
 app.use(express.static(__dirname + '/public'));
 app.use(cors());
+app.use(flash());
 app.use(express.json());
 
 // Passport

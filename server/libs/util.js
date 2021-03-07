@@ -10,9 +10,9 @@ util.parseError = function(errors) {
     }
   }
   else if(errors.code == '11000' ) {
-      if( errors.errmsg.indexOf('username') > 0)
+      if( errors.errmsg.indexOf('userEmail') > 0)
       {
-        parsed.username = { message:'아이디가 중복됩니다.' };
+        parsed.userEmail = { message:'아이디가 중복됩니다.' };
       }
       if(errors.errmsg.indexOf('email') > 0)
       {

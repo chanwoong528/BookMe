@@ -65,6 +65,7 @@ router.post('/login', function(req, res, next) {
 
   if (isValid) {
     passport.authenticate('local-login', function(err, user, passKey) {
+      console.log('user?' + user);
       if (err) { return next(err); }
       if (!user) { return res.send({loginStatus:false}); }
 
@@ -75,7 +76,7 @@ router.post('/login', function(req, res, next) {
 
     })(req, res, next);
   } else {
-    req.flash('errors', errors);
+    // req.flash('errors', errors);
     return res.send({loginStatus:false});
   }
 });
