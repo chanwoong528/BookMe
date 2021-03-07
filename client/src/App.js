@@ -36,15 +36,16 @@ function App() {
       password: password
     })
       .then((response) => {
-        setLoginPass(true);
-        alert("login success");
+
+        setLoginModal(response.data.LoginStatus);
+        console.log(response.data.LoginStatus);
         // response.data.loginStatus
         //여기에 로그인 성공하면 로그아웃 버튼 만들기
-
+        
       })
       .catch(() => {
         //로그인 실패시 다시 로그인페이지 돌려주기
-        setLoginPass(false);
+        
         alert("login failed");
       })
 
@@ -71,18 +72,29 @@ function App() {
         </Form>
       </Navbar>
       <br />
-      {
-        loginPass == true
-          ? <Jumbotron>
-              <h1>붘미</h1>
-            
-              <p>예약 사이트 북미</p>
-            
-            </Jumbotron>
-          : <LoginModal />
+      { loginPass==true?
+         <Jumbotron>
+        <h1>붘미</h1>
+         <p>
+          예약 사이트 북미
+          </p>
+          <p>
+          <Button variant="primary">Learn more</Button>
+        </p>
+        </Jumbotron>
+        :<LoginModal
+        setRegisterModal={setRegisterModal}
+        setLoginModal={setLoginModal}
+        setUserEmail={setUserEmail}
+        setUserPos={setUserPos}
+        setPassword={setPassword}
+        loginUser={loginUser}
+      >
+      </LoginModal>
       }
+      
       {
-        registerModal == true ?
+        registerModal == true ||loginPass ==false?
           <RegisterModal
             registerUser={registerUser}
 
@@ -99,7 +111,7 @@ function App() {
       }
 
       {
-        loginModal == true ? //로그인버튼 누르거나
+        (loginModal == true )? //로그인버튼 누르거나|| 로그인 실패하거나
           <LoginModal
             setRegisterModal={setRegisterModal}
             setLoginModal={setLoginModal}
