@@ -16,7 +16,7 @@ passport.deserializeUser(function(id, done) {
 // local strategy // 3
 passport.use('local-login',
   new LocalStrategy({
-      userEmailField : 'userEmail',
+      usernameField : 'userEmail',
       passwordField : 'password',
       passReqToCallback : true
     },
