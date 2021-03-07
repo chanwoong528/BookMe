@@ -4,6 +4,8 @@ import { Jumbotron, Button, Nav, Navbar, Form, FormControl } from 'react-bootstr
 import { useState } from 'react';
 import Axios from 'axios';
 
+
+
 function App() {
 
 
@@ -11,8 +13,10 @@ function App() {
   let [password, setPassword] = useState(null);
   let [userPos, setUserPos] = useState(null);
 
-  let [login, setLogin] = useState(false);
-  let [register, setRegister] = useState(false);
+  let [loginModal, setLoginModal] = useState(false);
+  let [registerModal, setRegisterModal] = useState(false);
+
+  let [loginPass, setLoginPass] = useState(false);
 
 
   const registerUser = () => {
@@ -21,13 +25,33 @@ function App() {
       userPos: userPos,
       userEmail: userEmail,
       password: password
-      console.log("request");
+
     }).then((response) => {
       console.log("response");
       alert(response.data);
     });
   };
 
+  const loginUser = () => {
+    Axios.post(`http://localhost:3001/users/new`, {
+      userEmail: userEmail,
+      password: password
+    })
+      .then((response) => {
+
+        alert("login success");
+        //여기에 로그인 성공하면 로그아웃 버튼 만들기
+        setLoginPass(true);
+      })
+      .catch(() => {
+        //로그인 실패시 다시 로그인페이지 돌려주기
+        setLoginPass(false); 
+        alert("login failed");
+      })
+
+
+
+  }
 
 
 
@@ -39,7 +63,7 @@ function App() {
         <Navbar.Brand href="/">붘미</Navbar.Brand>
         <Nav className="mr-auto">
           <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link onClick={() => { setLogin(!login) ;setRegister(false) }}>로그인</Nav.Link>
+          <Nav.Link onClick={() => { setLoginModal(!loginModal); setRegisterModal(false) }}>로그인</Nav.Link>
 
         </Nav>
         <Form inline>
@@ -59,16 +83,16 @@ function App() {
         </p>
       </Jumbotron>
       {
-        register == true ?
+        registerModal == true ?
           <RegisterModal
-           registerUser ={registerUser}
+            registerUser={registerUser}
 
-           setLogin ={setLogin}
-           setUserEmail={setUserEmail}
-           setUserPos={setUserPos}
-           setPassword={setPassword}
+            setLoginModal={setLoginModal}
+            setUserEmail={setUserEmail}
+            setUserPos={setUserPos}
+            setPassword={setPassword}
 
-           >
+          >
           </RegisterModal>
           : null
 
@@ -76,15 +100,16 @@ function App() {
       }
 
       {
-        login == true ?
-          <Login
-          setRegister={setRegister}
-          setLogin={setLogin}
-          setUserEmail={setUserEmail}
-          setUserPos={setUserPos}
-          setPassword={setPassword}
+        loginModal == true || loginPass==false? //로그인버튼 누르거나|| 로그인 실패하거나
+          <LoginModal
+            setRegisterModal={setRegisterModal}
+            setLoginModal={setLoginModal}
+            setUserEmail={setUserEmail}
+            setUserPos={setUserPos}
+            setPassword={setPassword}
+            loginUser={loginUser}
           >
-          </Login>
+          </LoginModal>
           : null
 
       }
@@ -116,14 +141,14 @@ function RegisterModal(props) {
           props.setPassword(event.target.value)
         }} /></h3>
       </h3>
-      <Button variant="primary" onClick={() => {props.registerUser() }}>회원가입
+      <Button variant="primary" onClick={() => { props.registerUser() }}>회원가입
         </Button>
     </div>
   )
 }
 
 
-function Login(props) {
+function LoginModal(props) {
   return (
 
     <div className="login-page">
@@ -137,8 +162,12 @@ function Login(props) {
         props.setPassword(event.target.value)
       }} />
       </h3>
-      <Button variant="primary">로그인</Button>
-      <Button variant="primary" onClick={() => {props.setLogin(false);props.setRegister(true) }}>회원가입
+      <Button variant="primary" onClick={() => {
+        props.loginUser(); 
+      }}>로그인</Button>
+      <Button variant="primary" onClick={() => {
+        props.setLogin(false); props.setRegister(true)
+      }}>회원가입
         </Button>
     </div>
   )
