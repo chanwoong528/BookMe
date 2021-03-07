@@ -1,6 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
-// const passport = require('./config/passport');//npm
+
+var flash = require('connect-flash'); // npm
+const session = require('express-session'); // npm
+const passport = require('./config/passport');//npm
 
 const cors = require('cors');
 
@@ -33,8 +36,8 @@ app.use(cors());
 app.use(express.json());
 
 // Passport
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Custom Middlewares
 // app.use(function (req, res, next) {
@@ -46,6 +49,7 @@ app.use(express.json());
 
 // Routes
 app.use('/users', require('./routes/users'));
+// app.use('/login', require('./routes/login'));
 
 // Port setting
 var port = process.env.PORT || 3001;

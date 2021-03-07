@@ -34,4 +34,55 @@ router.get('/delete/:username', util.isAdmin,  function(req, res){
   });
 });
 
+// login
+router.get('/login', function(req, res){
+  var userEmail = req.flash('userEmail')[0];
+  var errors = req.flash('errors')[0] || {};
+  res.render('home/login', {
+    userEmail: userEmail,
+    errors: errors
+  });
+});
+
+// login
+// router.post('/login', function (req, res, next){
+//
+// });
+
+router.post('/login', function(req, res, next) {
+  var errors = {};
+  var isValid = true;
+
+  if (!req.body.userEmail) {
+    isValid = false;
+    errors.userEmail = 'User Email is required!';
+  }
+  if (!req.body.password) {
+    isValid = false;
+    errors.password = 'Password is required!';
+  }
+
+  if (isValid) {
+    passport.authenticate('local-login', function(err, user, passKey) {
+      if (err) { return next(err); }
+      if (!user) { return res.send({loginStatus:false}); }
+
+      req.login(user, function(err) {
+        if (err) return next(err);
+        return res.send({loginStatus:true});
+      });
+
+    })(req, res, next);
+  } else {
+    req.flash('errors', errors);
+    return res.send({loginStatus:false});
+  }
+});
+
+// logout
+router.get('/logout', function(req, res) {
+  req.logout();
+  res.send('로그아웃 성공');
+});
+
 module.exports = router;

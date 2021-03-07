@@ -20,15 +20,21 @@ function App() {
 
       userPos: userPos,
       userEmail: userEmail,
-      password: password
-      console.log("request");
+      password: password,
     }).then((response) => {
-      console.log("response");
       alert(response.data);
     });
   };
 
-
+  const loginUser = () => {
+    Axios.post(`http://localhost:3001/users/login`, {
+      userEmail: userEmail,
+      password: password,
+    }).then((response) => {
+      alert(response.data);
+      // response.data.loginStatus == false
+    });
+  };
 
 
 
@@ -137,7 +143,7 @@ function Login(props) {
         props.setPassword(event.target.value)
       }} />
       </h3>
-      <Button variant="primary">로그인</Button>
+      <Button variant="primary" >로그인</Button>
       <Button variant="primary" onClick={() => {props.setLogin(false);props.setRegister(true) }}>회원가입
         </Button>
     </div>
