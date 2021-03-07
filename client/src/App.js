@@ -38,14 +38,14 @@ function App() {
       password: password
     })
       .then((response) => {
-
+        setLoginPass(true);
         alert("login success");
         //여기에 로그인 성공하면 로그아웃 버튼 만들기
-        setLoginPass(true);
+
       })
       .catch(() => {
         //로그인 실패시 다시 로그인페이지 돌려주기
-        setLoginPass(false); 
+        setLoginPass(false);
         alert("login failed");
       })
 
@@ -72,16 +72,16 @@ function App() {
         </Form>
       </Navbar>
       <br />
-
-      <Jumbotron>
-        <h1>붘미</h1>
-        <p>
-          예약 사이트 북미
-        </p>
-        <p>
-          <Button variant="primary">Learn more</Button>
-        </p>
-      </Jumbotron>
+      {
+        loginPass == true
+          ? <Jumbotron>
+              <h1>붘미</h1>
+            
+              <p>예약 사이트 북미</p>
+            
+            </Jumbotron>
+          : <LoginModal />
+      }
       {
         registerModal == true ?
           <RegisterModal
@@ -100,7 +100,7 @@ function App() {
       }
 
       {
-        loginModal == true || loginPass==false? //로그인버튼 누르거나|| 로그인 실패하거나
+        loginModal == true ? //로그인버튼 누르거나
           <LoginModal
             setRegisterModal={setRegisterModal}
             setLoginModal={setLoginModal}
@@ -163,10 +163,10 @@ function LoginModal(props) {
       }} />
       </h3>
       <Button variant="primary" onClick={() => {
-        props.loginUser(); 
+        props.loginUser();
       }}>로그인</Button>
       <Button variant="primary" onClick={() => {
-        props.setLogin(false); props.setRegister(true)
+        props.setLoginModal(false); props.setRegisterModal(true)
       }}>회원가입
         </Button>
     </div>
