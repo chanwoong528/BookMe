@@ -41,6 +41,7 @@ app.use(function (req, res, next) {
 // Other settings
 app.use(express.static(__dirname + '/public'));
 app.use(cors());
+app.use(flash());
 app.use(express.json());
 
 // Passport

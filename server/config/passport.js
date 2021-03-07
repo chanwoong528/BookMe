@@ -24,14 +24,17 @@ passport.use('local-login',
       User.findOne({userEmail:userEmail})
         .select({password:1, userEmail:1})
         .exec(function(err, user) {
+          console.log(user.userEmail);
+          console.log(user.password);
           if (err) return done(err);
+          console.log(user.authenticate(password));
 
           if (user && user.authenticate(password)){ // user authentication successful
             return done(null, user, sio.newPassKey(user.userEmail));
           }
           else {
-            req.flash('userEmail', userEmail);
-            req.flash('errors', {login:'아이디나 비밀번호가 일치하지 않습니다.'});
+            // req.flash('userEmail', userEmail);
+            // req.flash('errors', {login:'아이디나 비밀번호가 일치하지 않습니다.'});
             return done(null, false, null);
           }
         });

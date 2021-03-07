@@ -37,7 +37,7 @@ function App() {
     })
       .then((response) => {
 
-        alert("login success");
+        alert(response.data.loginStatus);
         // response.data.loginStatus
         //여기에 로그인 성공하면 로그아웃 버튼 만들기
         setLoginPass(true);
