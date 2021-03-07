@@ -31,13 +31,14 @@ function App() {
   };
 
   const loginUser = () => {
-    Axios.post(`http://localhost:3001/users/new`, {
+    Axios.post(`http://localhost:3001/users/login`, {
       userEmail: userEmail,
       password: password
     })
       .then((response) => {
 
         alert("login success");
+        // response.data.loginStatus
         //여기에 로그인 성공하면 로그아웃 버튼 만들기
         setLoginPass(true);
       })
@@ -164,7 +165,7 @@ function LoginModal(props) {
         props.loginUser();
       }}>로그인</Button>
       <Button variant="primary" onClick={() => {
-        props.setLogin(false); props.setRegister(true)
+        props.setLoginModal(false); props.setRegisterModal(true)
       }}>회원가입
         </Button>
     </div>
