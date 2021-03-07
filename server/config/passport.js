@@ -16,21 +16,21 @@ passport.deserializeUser(function(id, done) {
 // local strategy // 3
 passport.use('local-login',
   new LocalStrategy({
-      usernameField : 'username',
+      userEmailField : 'userEmail',
       passwordField : 'password',
       passReqToCallback : true
     },
-    function(req, username, password, done) {
-      User.findOne({username:username})
-        .select({password:1, username:1})
+    function(req, userEmail, password, done) {
+      User.findOne({userEmail:userEmail})
+        .select({password:1, userEmail:1})
         .exec(function(err, user) {
           if (err) return done(err);
 
           if (user && user.authenticate(password)){ // user authentication successful
-            return done(null, user, sio.newPassKey(user.username));
+            return done(null, user, sio.newPassKey(user.userEmail));
           }
           else {
-            req.flash('username', username);
+            req.flash('userEmail', userEmail);
             req.flash('errors', {login:'아이디나 비밀번호가 일치하지 않습니다.'});
             return done(null, false, null);
           }
