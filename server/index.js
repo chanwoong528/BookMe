@@ -1,13 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
-var flash = require('connect-flash'); // npm
-const session = require('express-session'); // npm
-const passport = require('./config/passport');//npm
+// const passport = require('./config/passport');//npm
 
 const cors = require('cors');
 
 var util = require('./libs/util');
+const { env } = require('process');
 
 const app = express();
 
@@ -30,23 +28,18 @@ db.on('error', function (err) {
   console.log('DB ERROR : ', err);
 });
 
-// Custom Middlewares
-app.use(function (req, res, next) {
-  res.locals.isAuthenticated = req.isAuthenticated();
-  res.locals.currentUser = req.user;
-  res.locals.passKey = req.passKey;
-  next();
-});
+
+
+
 
 // Other settings
 app.use(express.static(__dirname + '/public'));
 app.use(cors());
-app.use(flash());
 app.use(express.json());
 
 // Passport
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 // Custom Middlewares
 // app.use(function (req, res, next) {
@@ -58,7 +51,6 @@ app.use(passport.session());
 
 // Routes
 app.use('/users', require('./routes/users'));
-// app.use('/login', require('./routes/login'));
 
 // Port setting
 var port = process.env.PORT || 3001;
