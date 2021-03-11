@@ -54,7 +54,7 @@ app.use(passport.session());
 app.use('/users', require('./routes/users'));
 
 // Port setting
-var port = process.env.PORT || 3001;
+var port = process.env.PORT;
 server.listen(port, function () {
   console.log('server on! http://localhost:' + port);
 });
