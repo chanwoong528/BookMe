@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-// const passport = require('./config/passport');//npm
+const passport = require('./config/passport');//npm
 
 const cors = require('cors');
 
@@ -37,9 +37,9 @@ app.use(express.static(__dirname + '/public'));
 app.use(cors());
 app.use(express.json());
 
-// Passport
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 // Custom Middlewares
 // app.use(function (req, res, next) {

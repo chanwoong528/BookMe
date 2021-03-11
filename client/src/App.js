@@ -3,6 +3,7 @@ import './App.css';
 import { Jumbotron, Button, Nav, Navbar, Form, FormControl, Modal } from 'react-bootstrap';
 import { useState } from 'react';
 import Axios from 'axios';
+import { HashRouter as Router, Route, Switch } from "react-router-dom"
 
 
 function App() {
@@ -12,14 +13,11 @@ function App() {
   let [password, setPassword] = useState(null);
   let [userPos, setUserPos] = useState(null);
 
-
-
   let [loginModal, setLoginModal] = useState(false);
   let [registerModal, setRegisterModal] = useState(false);
 
 
-
-  let [loginPass, setLoginPass] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
 
   const registerUser = () => {
@@ -40,10 +38,11 @@ function App() {
     })
       .then((response) => {
 
-
-        setLoginModal(response.data.loginStatus);
+        setLoginModal(!response.data.loginStatus);
+        setLoggedIn(response.data.loginStatus);
+        
         alert(response.data.loginStatus);
-
+        console.log("loggedin :"+loggedIn)
 
         // response.data.loginStatus
         //여기에 로그인 성공하면 로그아웃 버튼 만들기
@@ -54,8 +53,15 @@ function App() {
 
         alert("login failed");
       })
+  }
+  const logoutUser =( )=> {
+    Axios.get(`http://localhost:3001/users/logout`, {
 
 
+    }).then((response)=>{
+      setLoggedIn(false);
+      alert(response.data.loginStatus);
+    })
 
   }
 
@@ -69,17 +75,18 @@ function App() {
         <Navbar.Brand href="/">붘미</Navbar.Brand>
         <Nav className="mr-auto">
           <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link onClick={() => { setLoginModal(!loginModal); setRegisterModal(false) }}>로그인</Nav.Link>
-
+          <Nav.Link onClick={() => {
+            setLoginModal(!loginModal); setRegisterModal(false) }}>
+           {loggedIn? null:<>로그인</> } </Nav.Link>
+           <Nav.Link onClick={() => {logoutUser()}}>
+           {loggedIn? <>로그아웃</>:null } </Nav.Link>
         </Nav>
-        <Form inline>
-          <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-          <Button variant="outline-info">Search</Button>
-        </Form>
+        
       </Navbar>
       <br />
-     
-        <Jumbotron>
+        {
+          loggedIn?
+          <Jumbotron>
           <h1>붘미</h1>
           <p>
             예약 사이트 북미
@@ -88,6 +95,14 @@ function App() {
             <Button variant="primary">Learn more</Button>
           </p>
         </Jumbotron>
+        :<LoginModal>
+
+        </LoginModal>
+        
+
+
+        }
+       
         
      
         {
