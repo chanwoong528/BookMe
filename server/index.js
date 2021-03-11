@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 
@@ -14,7 +15,7 @@ const app = express();
 // Socket server setting
 var server = require('http').createServer(app);
 var io = require('./libs/socket-listener').listen(server);
-const dbUrl = 'mongodb+srv://BookMe:1234@cluster0.am9ya.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+const dbUrl = process.env.DB_URL;
 
 // DB setting
 mongoose.set('useNewUrlParser', true);
