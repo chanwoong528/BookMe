@@ -6,6 +6,11 @@
   margin-right: 30%;
 
 }
+.login-page input{
+
+  border-radius: 10px;
+}
+
 .register-page{
   text-align: center;
   margin: auto;
@@ -13,4 +18,8 @@
   margin-left: 30%;
   margin-right: 30%;
 
+}
+.register-page input{
+
+  border-radius: 10px;
 }
